@@ -1,25 +1,25 @@
 package com.abned.forms.annotations;
 
 import java.lang.annotation.Annotation;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 import org.jboss.resteasy.spi.StringParameterUnmarshaller;
 import org.jboss.resteasy.spi.util.FindAnnotation;
 
-public class DateFormatter implements StringParameterUnmarshaller<Date> {
-    private SimpleDateFormat formatter;
+public class DateFormatter implements StringParameterUnmarshaller<LocalDate> {
+    private DateTimeFormatter formatter;
 
     public void setAnnotations(Annotation[] annotations) {
         DateFormat format = FindAnnotation.findAnnotation(annotations, DateFormat.class);
-        formatter = new SimpleDateFormat(format.value());
+        formatter = DateTimeFormatter.ofPattern(format.value());
     }
 
-    public Date fromString(String str) {
+    public LocalDate fromString(String str) {
         try {
-            return formatter.parse(str);
-        } catch (ParseException e) {
+            return LocalDate.parse(str, formatter);
+        } catch (DateTimeParseException e) {
             throw new RuntimeException(e);
         }
     }

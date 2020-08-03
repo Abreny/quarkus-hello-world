@@ -11,7 +11,7 @@ import java.util.Date;
 
 @QuarkusTest
 public class TodoResourceTest {
-    final SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
+    final SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
     public String testCreateTodoWithValidData() {
         final String id = given()

@@ -1,7 +1,10 @@
 package com.abned.forms;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 
+import javax.json.bind.annotation.JsonbDateFormat;
 import javax.ws.rs.FormParam;
 
 import com.abned.entities.Todo;
@@ -18,9 +21,10 @@ public class TodoForm {
     @FormParam("description")
     private String description;
 
+    @JsonbDateFormat("dd-MM-yyyy")
     @FormParam("estimated_at")
     @DateFormat("dd-MM-yyyy")
-    private Date estimatedAt;
+    private LocalDate estimatedAt;
 
     public String getName() {
         return name;
@@ -49,11 +53,11 @@ public class TodoForm {
         return this;
     }
 
-    public Date getEstimatedAt() {
+    public LocalDate getEstimatedAt() {
         return estimatedAt;
     }
 
-    public TodoForm setEstimatedAt(Date estimatedAt) {
+    public TodoForm setEstimatedAt(LocalDate estimatedAt) {
         this.estimatedAt = estimatedAt;
         return this;
     }
@@ -75,7 +79,7 @@ public class TodoForm {
             todo.setType(type);
         }
         if (estimatedAt != null) {
-            todo.setEstimatedAt(estimatedAt);
+            todo.setEstimatedAt(Date.from(estimatedAt.atStartOfDay(ZoneId.systemDefault()).toInstant()));
         }
         if (description != null) {
             todo.setDescription(description);

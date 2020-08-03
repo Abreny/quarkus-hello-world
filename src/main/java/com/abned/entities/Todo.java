@@ -5,22 +5,29 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import org.bson.types.ObjectId;
+import org.eclipse.microprofile.graphql.DateFormat;
+import org.eclipse.microprofile.graphql.Ignore;
 
 import io.quarkus.mongodb.panache.MongoEntity;
 
 @MongoEntity(collection = "todos")
 public class Todo {
+
+    @Ignore
     private ObjectId id;
     private String name;
     private String type;
     private String description;
 
+    @DateFormat("dd-MM-YYYY")
     @JsonFormat(pattern = "dd-MM-YYYY")
     private Date createdAt;
 
+    @DateFormat("dd-MM-YYYY")
     @JsonFormat(pattern = "dd-MM-YYYY")
     private Date updatedAt;
 
+    @DateFormat("dd-MM-YYYY")
     @JsonFormat(pattern = "dd-MM-YYYY")
     private Date estimatedAt;
     private Date endAt;
@@ -29,9 +36,13 @@ public class Todo {
         this.id = id;
         return this;
     }
-    
+
     public ObjectId getId() {
         return this.id;
+    }
+
+    public String getTodoId() {
+        return this.id.toHexString();
     }
 
     public String getName() {
